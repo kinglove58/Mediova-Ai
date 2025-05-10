@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import AuthImage from "@public/Abstract Curves and Colors.jpeg";
 import Logo from "@/components/logo";
+import AuthForm from "@/components/authentication/AuthForm";
 
 const Authentication = () => {
   return (
@@ -31,7 +32,7 @@ const Authentication = () => {
       </div>
       <div className="flex items-center justify-center w-full h-full">
         <div className="flex flex-col justify-center items-center p-8">
-          log in
+          <AuthForm/>
         </div>
       </div>
     </main>
