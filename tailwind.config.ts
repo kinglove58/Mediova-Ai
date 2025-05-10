@@ -10,8 +10,8 @@ export default {
   theme: {
   	extend: {
 		fontFamily: {
-			mono: ["--font-geist-mono"],
-			sans: ["--font-geist-sans"],
+			mono: ["var(--font-geist-mono)"],
+			sans: ["var(--font-geist-sans)"],
 		},
 		colors: {
   			background: 'hsl(var(--background))',
