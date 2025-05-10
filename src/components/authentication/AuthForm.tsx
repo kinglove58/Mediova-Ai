@@ -1,12 +1,13 @@
 "use client";
 import React, { useState } from "react";
+import LoginForm from "./LoginForm";
 
 const AuthForm = () => {
   const [mode, setMode] = useState("login");
   return (
     <div className="space-y-6">
-      <div className="space-y-2 tracking-tight">
-        <h1 className="font-semibold text-lg">
+      <div className="space-y-2 text-center flex flex-col">
+        <h1 className="font-semibold text-2xl tracking-tight">
           {" "}
           {mode === "reset"
             ? "Reset Password"
@@ -23,7 +24,24 @@ const AuthForm = () => {
             : "please input your correct details"}{" "}
         </p>
       </div>
-      <div></div>
+      <div>
+        {/* {mode === "login" ? <LoginForm /> : mode === "reset" ? } */}
+        {mode === "login" && (
+          <span>
+            <LoginForm />
+          </span>
+        )}{" "}
+        {mode === "reset" && (
+          <span>
+            <LoginForm />
+          </span>
+        )}{" "}
+        {mode === "signup" && (
+          <span>
+            <LoginForm />
+          </span>
+        )}
+      </div>
     </div>
   );
 };
