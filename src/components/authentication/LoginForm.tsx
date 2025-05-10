@@ -13,13 +13,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email"),
   password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
-const LoginForm = () => {
+const LoginForm = ({ className }: { className: string }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,7 +34,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div>
+    <div className={cn("grid gap-6", className)}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -66,7 +67,7 @@ const LoginForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="items-center">
+          <Button type="submit" className="w-full">
             Submit
           </Button>
         </form>
