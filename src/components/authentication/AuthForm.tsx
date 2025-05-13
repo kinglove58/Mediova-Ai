@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import LoginForm from "./LoginForm";
 import { Button } from "../ui/button";
+import SignUp from "./SignUp";
 
 const AuthForm = () => {
   const [mode, setMode] = useState("login");
@@ -51,9 +52,14 @@ const AuthForm = () => {
           </>
         )}{" "}
         {mode === "signup" && (
-          <span>
-            <LoginForm />
-          </span>
+          <>
+            <SignUp />
+            <div className="text-center">
+              <Button variant={"link"} onClick={() => setMode("login")}>
+                Already have an Account? Login
+              </Button>
+            </div>
+          </>
         )}
       </div>
     </div>
