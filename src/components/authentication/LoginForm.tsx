@@ -20,7 +20,7 @@ const formSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
-const LoginForm = ({ className }: { className: string }) => {
+const LoginForm = ({ className }: { className?: string }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,7 +36,7 @@ const LoginForm = ({ className }: { className: string }) => {
   return (
     <div className={cn("grid gap-6", className)}>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
           <FormField
             control={form.control}
             name="email"

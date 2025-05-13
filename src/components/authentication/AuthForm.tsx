@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import LoginForm from "./LoginForm";
+import { Button } from "../ui/button";
 
 const AuthForm = () => {
   const [mode, setMode] = useState("login");
@@ -27,14 +28,27 @@ const AuthForm = () => {
       <div>
         {/* {mode === "login" ? <LoginForm /> : mode === "reset" ? } */}
         {mode === "login" && (
-          <span>
+          <>
             <LoginForm />
-          </span>
+            <div className="flex justify-between items-center">
+              <Button variant={"link"} onClick={() => setMode("signup")}>
+                Need an Account? SignUp
+              </Button>
+              <Button variant={"link"} onClick={() => setMode("reset")}>
+                Reset your Password
+              </Button>
+            </div>
+          </>
         )}{" "}
         {mode === "reset" && (
-          <span>
+          <>
             <LoginForm />
-          </span>
+            <div className="items-center">
+              <Button variant={"link"} onClick={() => setMode("login")}>
+                Already have an Account? Login
+              </Button>
+            </div>
+          </>
         )}{" "}
         {mode === "signup" && (
           <span>

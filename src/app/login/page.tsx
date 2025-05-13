@@ -31,8 +31,10 @@ const Authentication = () => {
         </div>
       </div>
       <div className="flex items-center justify-center w-full h-full">
-        <div className="flex flex-col justify-center items-center p-8">
-          <AuthForm/>
+        <div className="flex flex-col justify-center items-center p-8 w-full">
+         <div className="max-w-xl mx-auto w-[350px]">
+           <AuthForm/>
+         </div>
         </div>
       </div>
     </main>
