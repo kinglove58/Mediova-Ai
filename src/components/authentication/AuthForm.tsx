@@ -59,6 +59,7 @@ const AuthForm = () => {
                 Already have an Account? Login
               </Button>
             </div>
+            <span>By clicking sign Up, you agree to our Terms of Service and Privacy Policy</span>
           </>
         )}
       </div>
