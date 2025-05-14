@@ -14,31 +14,29 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
-const passwordRegenex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+// Updated regex to include special characters
 
 const formSchema = z
   .object({
     full_name: z.string().nonempty("Full name is required"),
     email: z.string().email("Please enter a valid email"),
-    password: z
-      .string({
-        required_error: "Password is required",
-      })
-      .regex(
-        passwordRegenex,
-        "Password must contain at least 8 characters, including letters and numbers"
-      ),
+    password: z.string({
+      required_error: "Password is required",
+    }),
     confirmPassword: z.string({ required_error: "Confirm your Password" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "password don't match",
+    message: "Passwords don't match",
     path: ["confirmPassword"],
   });
 
-const LoginForm = ({ className }: { className?: string }) => {
+const SignUp = ({ className }: { className?: string }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,6 +49,8 @@ const LoginForm = ({ className }: { className?: string }) => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    setLoading(true);
+    toast.success("successfully signup");
     console.log(values);
   };
 
@@ -138,7 +138,8 @@ const LoginForm = ({ className }: { className?: string }) => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading && <Loader2 className="mr-2 w-4 h-4 animate-spin" />}
             Sign Up
           </Button>
         </form>
@@ -147,4 +148,4 @@ const LoginForm = ({ className }: { className?: string }) => {
   );
 };
 
-export default LoginForm;
+export default SignUp;

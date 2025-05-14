@@ -4,6 +4,7 @@ import LoginForm from "./LoginForm";
 import { Button } from "../ui/button";
 import SignUp from "./SignUp";
 import Link from "next/link";
+import ResetPassword from "./ResetPassword";
 
 const AuthForm = () => {
   const [mode, setMode] = useState("login");
@@ -44,10 +45,10 @@ const AuthForm = () => {
         )}{" "}
         {mode === "reset" && (
           <>
-            <LoginForm />
-            <div className="items-center">
+            <ResetPassword />
+            <div className="text-center mt-10">
               <Button variant={"link"} onClick={() => setMode("login")}>
-                Already have an Account? Login
+                Back to Login
               </Button>
             </div>
           </>
@@ -68,7 +69,12 @@ const AuthForm = () => {
               >
                 Terms of Service
               </Link>{" "}
-              and Privacy Policy
+              and <Link
+                href="#"
+                className="underline underline-offset-4 hover:text-primary"
+              >
+                Privacy Policy
+              </Link>{" "}
             </p>
           </>
         )}
