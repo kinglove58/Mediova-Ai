@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { string, z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,6 +16,8 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { signup } from "@/app/actions/auth-actions";
+import { redirect } from "next/navigation";
 
 // Updated regex to include special characters
 
@@ -37,6 +39,7 @@ const SignUp = ({ className }: { className?: string }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const toastId = useId();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,10 +51,27 @@ const SignUp = ({ className }: { className?: string }) => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
-    toast.success("successfully signup");
-    console.log(values);
+    toast.loading("signing up...", { id: toastId });
+
+    const formData = new FormData();
+    formData.append("full_name", values.full_name);
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+
+    const { success, error } = await signup(formData);
+
+    if (!success) {
+      toast.error(String(error), { id: toastId });
+      setLoading(false);
+    } else {
+      toast.success("successfully sign up please confirm through your email", {
+        id: toastId,
+      });
+      setLoading(false);
+      redirect("/login");
+    }
   };
 
   return (
