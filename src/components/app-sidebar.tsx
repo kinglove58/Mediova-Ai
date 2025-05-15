@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Sparkle, SquareTerminal } from "lucide-react";
+import { Image, Sparkle, SquareTerminal } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
@@ -22,6 +22,11 @@ const data = [
     title: "Dashboard",
     url: "/dashboard",
     icon: SquareTerminal,
+  },
+  {
+    title: "Generate Image",
+    url: "/image-generation",
+    icon: Image,
   },
 ];
 
