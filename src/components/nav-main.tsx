@@ -7,6 +7,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { LucideIcon } from "lucide-react";
+import Link from "next/link";
 
 export function NavMain({
   items,
@@ -27,12 +28,13 @@ export function NavMain({
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
-          <SidebarMenuItem key={item.title}>
+         <Link key={item.title} href={item.url} className="rounded-none">
+          <SidebarMenuItem >
             <SidebarMenuButton tooltip={item.title}>
               {item.icon && <item.icon />}
               <span>{item.title}</span>
             </SidebarMenuButton>
-          </SidebarMenuItem>
+          </SidebarMenuItem></Link>
         ))}
       </SidebarMenu>
     </SidebarGroup>

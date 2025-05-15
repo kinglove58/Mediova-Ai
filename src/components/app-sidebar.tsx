@@ -1,7 +1,17 @@
 "use client";
 
 import * as React from "react";
-import { Image, Sparkle, SquareTerminal } from "lucide-react";
+import {
+  CreditCard,
+  Frame,
+  Frame,
+  Image,
+  Images,
+  Layers,
+  Settings2,
+  Sparkle,
+  SquareTerminal,
+} from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -25,6 +35,31 @@ const data = [
     title: "Generate Image",
     url: "/image-generation",
     icon: Image,
+  },
+  {
+    title: "my models",
+    url: "/models",
+    icon: Frame,
+  },
+  {
+    title: "Train models",
+    url: "/model-traning",
+    icon: Layers,
+  },
+  {
+    title: "My Images",
+    url: "/gallery",
+    icon: Images,
+  },
+  {
+    title: "Billing",
+    url: "/billing",
+    icon: CreditCard,
+  },
+  {
+    title: "settings",
+    url: "/account-setting",
+    icon: Settings2,
   },
 ];
 
