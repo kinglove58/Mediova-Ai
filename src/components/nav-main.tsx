@@ -61,7 +61,6 @@ export function NavMain({}) {
   const pathname = usePathname();
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
         {navItem.map((item) => (
           <Link
