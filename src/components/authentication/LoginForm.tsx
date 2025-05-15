@@ -38,7 +38,7 @@ const LoginForm = ({ className }: { className?: string }) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
-    toast.loading("signing up...", { id: toastId });
+    toast.loading("signing in...", { id: toastId });
 
     const formData = new FormData();
     formData.append("email", values.email);
@@ -50,7 +50,7 @@ const LoginForm = ({ className }: { className?: string }) => {
       toast.error(String(error), { id: toastId });
       setLoading(false);
     } else {
-      toast.success("successfully sign up please confirm through your email", {
+      toast.success("successfully login", {
         id: toastId,
       });
       setLoading(false);
