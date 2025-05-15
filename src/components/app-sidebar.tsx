@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Image, Sparkle, SquareTerminal } from "lucide-react";
+import { ChevronsUpDown, Image, Sparkle, SquareTerminal } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
@@ -45,16 +45,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <span className="truncate font-semibold">Mediovia Ai</span>
             <span className="truncate text-xs">Pro</span>
           </div>
-          <ChevronsUpDown className="ml-auto" />
         </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavMain items={data} />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
+      <SidebarFooter>{/* <NavUser user={data} /> */}</SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
