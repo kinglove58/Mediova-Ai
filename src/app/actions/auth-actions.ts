@@ -29,3 +29,21 @@ export async function signup(formData: FormData): Promise<AuthResponse> {
     data: signupData || null,
   };
 }
+export async function login(formData: FormData): Promise<AuthResponse> {
+  const supabase = await createClient();
+
+  const data = {
+    email: formData.get("email") as string,
+    password: formData.get("password") as string,
+  };
+
+  const { data: signupData, error } = await supabase.auth.signInWithPassword(
+    data
+  );
+
+  return {
+    error: error?.message || "There was an error in signing up",
+    success: !error,
+    data: login || null,
+  };
+}

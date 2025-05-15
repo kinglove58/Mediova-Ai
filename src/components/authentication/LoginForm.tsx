@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useId, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,6 +14,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { login } from "@/app/actions/auth-actions";
+import { redirect } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email"),
@@ -21,6 +24,10 @@ const formSchema = z.object({
 });
 
 const LoginForm = ({ className }: { className?: string }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const toastId = useId();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -29,8 +36,26 @@ const LoginForm = ({ className }: { className?: string }) => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setLoading(true);
+    toast.loading("signing up...", { id: toastId });
+
+    const formData = new FormData();
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+
+    const { success, error } = await login(formData);
+
+    if (!success) {
+      toast.error(String(error), { id: toastId });
+      setLoading(false);
+    } else {
+      toast.success("successfully sign up please confirm through your email", {
+        id: toastId,
+      });
+      setLoading(false);
+      redirect("/dashboard");
+    }
   };
 
   return (
