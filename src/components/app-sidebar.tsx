@@ -1,12 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { ChevronsUpDown, Image, Sparkle, SquareTerminal } from "lucide-react";
+import { Image, Sparkle, SquareTerminal } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
-import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -16,7 +14,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-// This is sample data.
+// data of the sidebar
 const data = [
   {
     title: "Dashboard",
