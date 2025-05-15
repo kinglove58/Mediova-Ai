@@ -1,17 +1,5 @@
-"use client";
-
 import * as React from "react";
-import {
-  CreditCard,
-  Frame,
-  Frame,
-  Image,
-  Images,
-  Layers,
-  Settings2,
-  Sparkle,
-  SquareTerminal,
-} from "lucide-react";
+import { Sparkle } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -23,47 +11,22 @@ import {
   SidebarMenuButton,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { createClient } from "@/lib/supabase/server";
 
 // data of the sidebar
-const data = [
-  {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: SquareTerminal,
-  },
-  {
-    title: "Generate Image",
-    url: "/image-generation",
-    icon: Image,
-  },
-  {
-    title: "my models",
-    url: "/models",
-    icon: Frame,
-  },
-  {
-    title: "Train models",
-    url: "/model-traning",
-    icon: Layers,
-  },
-  {
-    title: "My Images",
-    url: "/gallery",
-    icon: Images,
-  },
-  {
-    title: "Billing",
-    url: "/billing",
-    icon: CreditCard,
-  },
-  {
-    title: "settings",
-    url: "/account-setting",
-    icon: Settings2,
-  },
-];
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export async function AppSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+  console.log(data);
+
+  const user = {
+    name: data.user?.user_metadata.full_name,
+    email: data.user?.email ?? "",
+  };
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -81,9 +44,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data} />
+        <NavMain />
       </SidebarContent>
-      <SidebarFooter>{/* <NavUser user={data} /> */}</SidebarFooter>
+      <SidebarFooter>
+        <NavUser user={user} />
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
