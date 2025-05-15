@@ -47,3 +47,9 @@ export async function login(formData: FormData): Promise<AuthResponse> {
     data: login || null,
   };
 }
+
+export async function logout() {
+  const supabase = await createClient();
+
+  await supabase.auth.signOut();
+}
