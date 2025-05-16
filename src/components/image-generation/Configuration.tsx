@@ -22,6 +22,9 @@ const formSchema = z.object({
   prompt: z.string({
     required_error: "prompt is required",
   }),
+  aspect_ratio: z.string({
+    required_error: "Aspect ratio is required",
+  }),
   guidance: z.number({
     required_error: "guidance scale is required",
   }),
@@ -29,12 +32,28 @@ const formSchema = z.object({
     .number()
     .min(1, { message: "Number of output should be atleast 1" })
     .max(4, { message: "Number of output must be less than 4" }),
+  output_quality: z
+    .number()
+    .min(1, { message: "output quality should be atleast 1" })
+    .max(100, { message: "output quality must be less than 100" }),
+  num_inference_steps: z
+    .number()
+    .min(1, { message: "Number of influence should be atleast 1" })
+    .max(50, { message: "Number of influence must be less than 100" }),
+  output_format: z.string({ required_error: "Output format is required" }),
 });
 const Configuration = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      model: "black-forest-labs/flux-schnell",
+      prompt: "",
+      aspect_ratio: "1.1",
+      guidance: 3.5,
+      num_outputs: 1,
+      output_quality: 80,
+      num_inference_steps: 28,
+      output_format: "jpg",
     },
   });
 
