@@ -115,7 +115,7 @@ const Configuration = () => {
                 <FormLabel>Aspect Ratio</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  defaultValue={[field.value]}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -147,7 +147,12 @@ const Configuration = () => {
               <FormItem>
                 <FormLabel>Number of Outputs</FormLabel>
                 <FormControl>
-                  <Input type="number" min={1} max={4} {...field} />
+                  <Input
+                    type="number"
+                    min={1}
+                    max={4}
+                    onChange={(e) => field.onChange(+e.target.value)}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -159,13 +164,64 @@ const Configuration = () => {
           name="guidance"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Guidance</FormLabel>
+              <FormLabel className="flex items-center justify-between">
+                {" "}
+                <div>Guidance</div>
+                <span>{field.value} </span>
+              </FormLabel>
               <FormControl>
                 <Slider
-                  defaultValue={field.value}
-                  max={10}
+                  defaultValue={[field.value]}
                   min={0}
+                  max={10}
                   step={0.5}
+                  onValueChange={(value) => field.onChange(value[0])}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />{" "}
+        <FormField
+          control={form.control}
+          name="num_inference_steps"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="flex items-center justify-between">
+                {" "}
+                <div>Number of Inference steps</div>
+                <span>{field.value} </span>
+              </FormLabel>
+              <FormControl>
+                <Slider
+                  defaultValue={[field.value]}
+                  min={20}
+                  max={50}
+                  step={1}
+                  onValueChange={(value) => field.onChange(value[0])}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />{" "}
+        <FormField
+          control={form.control}
+          name="output_quality"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="flex items-center justify-between">
+                {" "}
+                <div>Output Quality</div>
+                <span>{field.value} </span>
+              </FormLabel>
+              <FormControl>
+                <Slider
+                  defaultValue={[field.value]}
+                  min={50}
+                  max={100}
+                  step={1}
+                  onValueChange={(value) => field.onChange(value[0])}
                 />
               </FormControl>
               <FormMessage />
