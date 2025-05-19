@@ -32,6 +32,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
+import { generationImage } from "@/app/actions/image-actions";
 
 export const ImageGenerationFormSchema = z.object({
   model: z.string({
@@ -75,17 +76,11 @@ const Configuration = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof ImageGenerationFormSchema>) {
+  async function onSubmit(values: z.infer<typeof ImageGenerationFormSchema>) {
+    await generationImage(values);
     console.log(values);
-    /*  toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      ),
-    }); */
   }
+
   return (
     <TooltipProvider>
       <Form {...form}>
