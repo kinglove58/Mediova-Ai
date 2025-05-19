@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Slider } from "@/components/ui/slider";
 import {
   Form,
   FormControl,
@@ -148,12 +149,29 @@ const Configuration = () => {
                 <FormControl>
                   <Input type="number" min={1} max={4} {...field} />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
+        <FormField
+          control={form.control}
+          name="guidance"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Guidance</FormLabel>
+              <FormControl>
+                <Slider
+                  defaultValue={field.value}
+                  max={10}
+                  min={0}
+                  step={0.5}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button type="submit">Submit</Button>
       </form>
     </Form>
