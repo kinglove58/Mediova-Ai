@@ -105,6 +105,31 @@ const Configuration = () => {
             </FormItem>
           )}
         />
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="aspect_ratio"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Aspect Ratio</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select an aspect ratio" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="1:1">1:1</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <Button type="submit">Submit</Button>
       </form>
     </Form>
