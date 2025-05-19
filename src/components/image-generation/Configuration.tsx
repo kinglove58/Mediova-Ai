@@ -61,7 +61,7 @@ export const ImageGenerationFormSchema = z.object({
   output_format: z.string({ required_error: "Output format is required" }),
 });
 const Configuration = () => {
- const form = useForm<z.infer<typeof ImageGenerationFormSchema>>({
+  const form = useForm<z.infer<typeof ImageGenerationFormSchema>>({
     resolver: zodResolver(ImageGenerationFormSchema),
     defaultValues: {
       model: "black-forest-labs/flux-schnell",
@@ -76,14 +76,15 @@ const Configuration = () => {
   });
 
   function onSubmit(values: z.infer<typeof ImageGenerationFormSchema>) {
-    toast({
+    console.log(values);
+    /*  toast({
       title: "You submitted the following values:",
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(values, null, 2)}</code>
         </pre>
       ),
-    });
+    }); */
   }
   return (
     <TooltipProvider>
@@ -184,7 +185,7 @@ const Configuration = () => {
                 name="num_outputs"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="flex items-center gap-2">
+                    <FormLabel className="flex items-center gap-1">
                       Number of Outputs
                       <Tooltip>
                         <TooltipTrigger>
