@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
 
-const formSchema = z.object({
+const ImageGenerationFormSchema = z.object({
   model: z.string({
     required_error: "model is required",
   }),
@@ -61,7 +61,7 @@ const formSchema = z.object({
   output_format: z.string({ required_error: "Output format is required" }),
 });
 const Configuration = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<z.infer<typeof ImageGenerationFormSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       model: "black-forest-labs/flux-schnell",
@@ -75,7 +75,7 @@ const Configuration = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof ImageGenerationFormSchema>) {
     toast({
       title: "You submitted the following values:",
       description: (
