@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
 
-const ImageGenerationFormSchema = z.object({
+export const ImageGenerationFormSchema = z.object({
   model: z.string({
     required_error: "model is required",
   }),
@@ -61,8 +61,8 @@ const ImageGenerationFormSchema = z.object({
   output_format: z.string({ required_error: "Output format is required" }),
 });
 const Configuration = () => {
-  const form = useForm<z.infer<typeof ImageGenerationFormSchema>>({
-    resolver: zodResolver(formSchema),
+ const form = useForm<z.infer<typeof ImageGenerationFormSchema>>({
+    resolver: zodResolver(ImageGenerationFormSchema),
     defaultValues: {
       model: "black-forest-labs/flux-schnell",
       prompt: "",
