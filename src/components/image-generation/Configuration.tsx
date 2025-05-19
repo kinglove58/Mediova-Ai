@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
+import { Textarea } from "../ui/textarea";
 
 const formSchema = z.object({
   model: z.string({
@@ -80,155 +81,202 @@ const Configuration = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="model"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>model</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a model" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="black-forest-labs/flux-schnell">
-                    Flux-schnell
-                  </SelectItem>
-                  <SelectItem value="black-forest-labs/flux-dev">
-                    Flux-dev
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="grid grid-cols-2 gap-4">
+        <fieldset className="grid p-4 gap-6 border bg-background rounded-lg">
+          <legend className="font-medium -ml-1 px-1 text-sm">Settings</legend>
           <FormField
             control={form.control}
-            name="aspect_ratio"
+            name="model"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Aspect Ratio</FormLabel>
+                <FormLabel>model</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={[field.value]}
+                  defaultValue={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select an aspect ratio" />
+                      <SelectValue placeholder="Select a model" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="1:1">1:1</SelectItem>
-                    <SelectItem value="4:5">4:5</SelectItem>
-                    <SelectItem value="5:4">5:4</SelectItem>
-                    <SelectItem value="3:2">3:2</SelectItem>
-                    <SelectItem value="2:3">2:3</SelectItem>
-                    <SelectItem value="16:9">16:9</SelectItem>
-                    <SelectItem value="9:16">9:16</SelectItem>
-                    <SelectItem value="4:3">4:3</SelectItem>
-                    <SelectItem value="3:4">3:4</SelectItem>
-                    <SelectItem value="9:21">9:21</SelectItem>
-                    <SelectItem value="21:9">21:9</SelectItem>
+                    <SelectItem value="black-forest-labs/flux-schnell">
+                      Flux-schnell
+                    </SelectItem>
+                    <SelectItem value="black-forest-labs/flux-dev">
+                      Flux-dev
+                    </SelectItem>
                   </SelectContent>
                 </Select>
+
                 <FormMessage />
               </FormItem>
             )}
           />
+          <div className="grid grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="aspect_ratio"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Aspect Ratio</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={[field.value]}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select an aspect ratio" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="1:1">1:1</SelectItem>
+                      <SelectItem value="4:5">4:5</SelectItem>
+                      <SelectItem value="5:4">5:4</SelectItem>
+                      <SelectItem value="3:2">3:2</SelectItem>
+                      <SelectItem value="2:3">2:3</SelectItem>
+                      <SelectItem value="16:9">16:9</SelectItem>
+                      <SelectItem value="9:16">9:16</SelectItem>
+                      <SelectItem value="4:3">4:3</SelectItem>
+                      <SelectItem value="3:4">3:4</SelectItem>
+                      <SelectItem value="9:21">9:21</SelectItem>
+                      <SelectItem value="21:9">21:9</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="num_outputs"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Number of Outputs</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min={1}
+                      max={4}
+                      onChange={(e) => field.onChange(+e.target.value)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
-            name="num_outputs"
+            name="guidance"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Number of Outputs</FormLabel>
+                <FormLabel className="flex items-center justify-between">
+                  {" "}
+                  <div>Guidance</div>
+                  <span>{field.value} </span>
+                </FormLabel>
                 <FormControl>
-                  <Input
-                    type="number"
-                    min={1}
-                    max={4}
-                    onChange={(e) => field.onChange(+e.target.value)}
+                  <Slider
+                    defaultValue={[field.value]}
+                    min={0}
+                    max={10}
+                    step={0.5}
+                    onValueChange={(value) => field.onChange(value[0])}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />{" "}
+          <FormField
+            control={form.control}
+            name="num_inference_steps"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="flex items-center justify-between">
+                  {" "}
+                  <div>Number of Inference steps</div>
+                  <span>{field.value} </span>
+                </FormLabel>
+                <FormControl>
+                  <Slider
+                    defaultValue={[field.value]}
+                    min={20}
+                    max={50}
+                    step={1}
+                    onValueChange={(value) => field.onChange(value[0])}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />{" "}
+          <FormField
+            control={form.control}
+            name="output_quality"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="flex items-center justify-between">
+                  {" "}
+                  <div>Output Quality</div>
+                  <span>{field.value} </span>
+                </FormLabel>
+                <FormControl>
+                  <Slider
+                    defaultValue={[field.value]}
+                    min={50}
+                    max={100}
+                    step={1}
+                    onValueChange={(value) => field.onChange(value[0])}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-        </div>
-        <FormField
-          control={form.control}
-          name="guidance"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="flex items-center justify-between">
-                {" "}
-                <div>Guidance</div>
-                <span>{field.value} </span>
-              </FormLabel>
-              <FormControl>
-                <Slider
-                  defaultValue={[field.value]}
-                  min={0}
-                  max={10}
-                  step={0.5}
-                  onValueChange={(value) => field.onChange(value[0])}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />{" "}
-        <FormField
-          control={form.control}
-          name="num_inference_steps"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="flex items-center justify-between">
-                {" "}
-                <div>Number of Inference steps</div>
-                <span>{field.value} </span>
-              </FormLabel>
-              <FormControl>
-                <Slider
-                  defaultValue={[field.value]}
-                  min={20}
-                  max={50}
-                  step={1}
-                  onValueChange={(value) => field.onChange(value[0])}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />{" "}
-        <FormField
-          control={form.control}
-          name="output_quality"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="flex items-center justify-between">
-                {" "}
-                <div>Output Quality</div>
-                <span>{field.value} </span>
-              </FormLabel>
-              <FormControl>
-                <Slider
-                  defaultValue={[field.value]}
-                  min={50}
-                  max={100}
-                  step={1}
-                  onValueChange={(value) => field.onChange(value[0])}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
+          <FormField
+            control={form.control}
+            name="output_format"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Output Format</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select an output" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="webp">WebP</SelectItem>
+                    <SelectItem value="jpg">JPG</SelectItem>
+                    <SelectItem value="png">PNG</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="prompt"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Prompt</FormLabel>
+                <FormControl>
+                  <Textarea rows={6} className="resize-none" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" className="font-semibold">
+            Generate
+          </Button>
+        </fieldset>
       </form>
     </Form>
   );
