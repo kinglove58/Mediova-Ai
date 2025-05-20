@@ -24,7 +24,13 @@ const useGeneratedStore = create<GenerateState>((set) => ({
         set({ loading: false, error: error });
         return;
       }
-      set({ images: data, loading: false });
+
+      const dataWithUrl = data.map((url:string)=> {
+        return{
+            url
+        }
+      })
+      set({ images:dataWithUrl, loading: false });
     } catch (error) {
       console.log(error);
       set({
