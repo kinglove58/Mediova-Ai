@@ -285,7 +285,12 @@ const Configuration = () => {
                     <Slider
                       defaultValue={[field.value]}
                       min={20}
-                      max={50}
+                      max={
+                        form.getValues("model") ===
+                        "black-forest-labs/flux-schnell"
+                          ? 4
+                          : 50
+                      }
                       step={1}
                       onValueChange={(value) => field.onChange(value[0])}
                     />
