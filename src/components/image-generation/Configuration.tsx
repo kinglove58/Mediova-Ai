@@ -284,7 +284,7 @@ const Configuration = () => {
                   <FormControl>
                     <Slider
                       defaultValue={[field.value]}
-                      min={20}
+                      min={1}
                       max={
                         form.getValues("model") ===
                         "black-forest-labs/flux-schnell"
