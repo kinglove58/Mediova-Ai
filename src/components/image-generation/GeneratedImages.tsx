@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Card, CardContent } from "../ui/card";
 import {
@@ -32,7 +33,7 @@ import useGeneratedStore from "@/store/useGeneratedStore";
 const GeneratedImages = () => {
   const images = useGeneratedStore((state) => state.images);
   const loading = useGeneratedStore((state) => state.loading);
-  
+
   if (images.length === 0) {
     return (
       <Card className="w-full max-w-2xl bg-muted">
@@ -50,8 +51,8 @@ const GeneratedImages = () => {
           <CarouselItem key={index}>
             <div className="flex relative rounded-lg aspect-square items-center justify-center overflow-hidden">
               <Image
-                src={image.src.trim()}
-                alt={image.alt}
+                src={image.url}
+                alt={"Generated image"}
                 width={512}
                 height={512}
                 className="w-full h-full object-cover"
