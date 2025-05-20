@@ -7,6 +7,7 @@ interface GenerateState {
   loading: boolean;
   images: Array<{ url: string }>;
   error: string | null;
+  generateImage:(values:z.infer<typeof ImageGenerationFormSchema>)=>Promise<void>
 }
 
 const useGeneratedStore = create<GenerateState>((set) => ({

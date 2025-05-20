@@ -8,8 +8,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
+import useGeneratedStore from "@/store/useGeneratedStore";
 
-const images = [
+/* const images = [
   {
     src: "/hero-images/Charismatic Young Man with a Warm Smile and Stylish Tousled Hair.jpeg ",
     alt: "some image",
@@ -26,9 +27,12 @@ const images = [
     src: "/hero-images/Confident Woman in Urban Setting.jpeg ",
     alt: "some image",
   },
-];
+]; */
 
 const GeneratedImages = () => {
+  const images = useGeneratedStore((state) => state.images);
+  const loading = useGeneratedStore((state) => state.loading);
+  
   if (images.length === 0) {
     return (
       <Card className="w-full max-w-2xl bg-muted">

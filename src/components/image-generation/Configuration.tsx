@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
 import { generationImageAction} from "@/app/actions/image-actions";
+import useGeneratedStore from "@/store/useGeneratedStore";
 
 export const ImageGenerationFormSchema = z.object({
   model: z.string({
@@ -62,6 +63,7 @@ export const ImageGenerationFormSchema = z.object({
   output_format: z.string({ required_error: "Output format is required" }),
 });
 const Configuration = () => {
+  const generateImage = useGeneratedStore((state) => state.generateImage)
   const form = useForm<z.infer<typeof ImageGenerationFormSchema>>({
     resolver: zodResolver(ImageGenerationFormSchema),
     defaultValues: {
