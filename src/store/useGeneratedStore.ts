@@ -14,12 +14,24 @@ const useGeneratedStore = create<GenerateState>((set) => ({
   images: [],
   error: null,
 
-  generateImage: async(values:z.infer<typeof ImageGenerationFormSchema>)=> {
-    set({loading: true, error: false})
+  generateImage: async (values: z.infer<typeof ImageGenerationFormSchema>) => {
+    set({ loading: true, error: null });
     try {
-        const {success, error, data} = await generationImageAction(values)
-    } catch () {
-        
+      const { success, error, data } = await generationImageAction(values);
+
+      if (!success) {
+        set({ loading: false, error: error });
+        return;
+      }
+      set({ images: data, loading: false });
+    } catch (error) {
+      console.log(error);
+      set({
+        error: "failed to generate image please try again later",
+        loading: false,
+      });
     }
-  }
+  },
 }));
+
+export default useGeneratedStore;
