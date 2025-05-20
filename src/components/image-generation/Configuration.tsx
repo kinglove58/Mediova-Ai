@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -76,9 +76,27 @@ const Configuration = () => {
     },
   });
 
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === "model") {
+        let newSteps;
+
+        if (value.model === "black-forest-labs/flux-schnell") {
+          newSteps = 4;
+        } else {
+          newSteps = 28;
+        }
+        if (newSteps !== undefined) {
+          form.setValue("num_inference_steps", newSteps);
+        }
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [form]);
+
   async function onSubmit(values: z.infer<typeof ImageGenerationFormSchema>) {
-    await generationImage(values);
-    console.log(values);
+    const { error, success, data } = await generationImage(values);
+    console.log(error, success, data);
   }
 
   return (
