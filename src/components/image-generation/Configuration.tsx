@@ -32,7 +32,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
-import { generationImageAction} from "@/app/actions/image-actions";
+import { generationImageAction } from "@/app/actions/image-actions";
 import useGeneratedStore from "@/store/useGeneratedStore";
 
 export const ImageGenerationFormSchema = z.object({
@@ -63,13 +63,13 @@ export const ImageGenerationFormSchema = z.object({
   output_format: z.string({ required_error: "Output format is required" }),
 });
 const Configuration = () => {
-  const generateImage = useGeneratedStore((state) => state.generateImage)
+  const generateImage = useGeneratedStore((state) => state.generateImage);
   const form = useForm<z.infer<typeof ImageGenerationFormSchema>>({
     resolver: zodResolver(ImageGenerationFormSchema),
     defaultValues: {
       model: "black-forest-labs/flux-schnell",
       prompt: "",
-      aspect_ratio: "1.1",
+      aspect_ratio: "1:1",
       guidance: 3.5,
       num_outputs: 1,
       output_quality: 80,
@@ -174,7 +174,7 @@ const Configuration = () => {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select an aspect ratio" />
+                          <SelectValue placeholder="1:1" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -218,6 +218,7 @@ const Configuration = () => {
                         type="number"
                         min={1}
                         max={4}
+                        value={field.value ?? 1}
                         onChange={(e) => field.onChange(+e.target.value)}
                       />
                     </FormControl>
