@@ -32,7 +32,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
-import { generationImage } from "@/app/actions/image-actions";
+import { generationImageAction} from "@/app/actions/image-actions";
 
 export const ImageGenerationFormSchema = z.object({
   model: z.string({
@@ -95,7 +95,7 @@ const Configuration = () => {
   }, [form]);
 
   async function onSubmit(values: z.infer<typeof ImageGenerationFormSchema>) {
-    const { error, success, data } = await generationImage(values);
+    const { error, success, data } = await generationImageAction(values);
     console.log(error, success, data);
   }
 
