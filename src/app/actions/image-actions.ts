@@ -10,7 +10,7 @@ const replicate = new Replicate({
 interface ImageResponse {
   error: string | null;
   success: boolean;
-  data: unknown | null;
+  data?: unknown | null;
 }
 
 export async function generationImageAction(
