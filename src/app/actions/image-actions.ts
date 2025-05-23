@@ -81,5 +81,16 @@ export async function storeImages(data: storeImageInput[]) {
     const { width, height, type } = imageMeta(new Uint8Array(arrayBuffer));
     const fileName = `image_${randomUUID()}.${type}`;
     const filePath = `${user.id}/${fileName}`;
+
+    const { error: storageError } = await supabase.storage
+      .from("generated_image")
+      .upload(filePath, arrayBuffer, {
+        contentType: `image/${type}`,
+        cacheControl: "3600",
+        upsert: false
+      });
+    if (storageError) {
+      continue;
+    }
   }
 }
