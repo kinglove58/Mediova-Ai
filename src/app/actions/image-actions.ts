@@ -83,14 +83,29 @@ export async function storeImages(data: storeImageInput[]) {
     const filePath = `${user.id}/${fileName}`;
 
     const { error: storageError } = await supabase.storage
-      .from("generated_image")
+      .from("generated-images")
       .upload(filePath, arrayBuffer, {
         contentType: `image/${type}`,
         cacheControl: "3600",
-        upsert: false
+        upsert: false,
       });
     if (storageError) {
       continue;
     }
+
+    await supabase.from("generated_images").insert([
+      {
+        user_id: user.id,
+        model: img.model,
+        prompt: img.prompt,
+        aspect_ratio: img.aspect_ratio,
+        guidance: img.guidance,
+        num_inference_steps: img.num_inference_steps,
+        output_format: img.output_format,
+        image_name: fileName,
+        width,
+        height,
+      },
+    ]).select();
   }
 }
