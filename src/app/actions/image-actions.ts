@@ -4,6 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 import Replicate from "replicate";
 import { z } from "zod";
 import { Database } from "@datatypes.types";
+import { imageMeta } from "image-meta";
+
 
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
@@ -49,7 +51,11 @@ export async function generationImageAction(
   }
 }
 
-export async function blob{}
+export async function imgUrlToBlob(url:string){
+  const response = fetch(url)
+  const blob = (await response).blob();
+  return (await blob).arrayBuffer();
+}
 
 type storeImageInput = {
   url: string;
@@ -72,5 +78,7 @@ export async function storeImages(data: storeImageInput) {
   const uploadResults[];
   for(const img of data){
     const arrayBuffer = await imgUrlToBlob();
+   imageMeta(new Uint8Array(arrayBuffer))
+
   }
 }
