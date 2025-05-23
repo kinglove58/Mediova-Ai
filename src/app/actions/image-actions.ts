@@ -5,7 +5,7 @@ import Replicate from "replicate";
 import { z } from "zod";
 import { Database } from "@datatypes.types";
 import { imageMeta } from "image-meta";
-
+import { randomUUID } from "crypto";
 
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
@@ -51,8 +51,8 @@ export async function generationImageAction(
   }
 }
 
-export async function imgUrlToBlob(url:string){
-  const response = fetch(url)
+export async function imgUrlToBlob(url: string) {
+  const response = fetch(url);
   const blob = (await response).blob();
   return (await blob).arrayBuffer();
 }
@@ -76,9 +76,10 @@ export async function storeImages(data: storeImageInput[]) {
   }
 
   const uploadResults = [];
-  for(const img of data){
+  for (const img of data) {
     const arrayBuffer = await imgUrlToBlob(img.url);
-   const {width, height, type} =imageMeta(new Uint8Array(arrayBuffer))
-
+    const { width, height, type } = imageMeta(new Uint8Array(arrayBuffer));
+    const fileName = `image_${randomUUID()}.${type}`;
+    const filePath = `${user.id}/${fileName}`;
   }
 }
