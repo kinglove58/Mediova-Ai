@@ -123,7 +123,11 @@ export async function storeImages(data: storeImageInput[]) {
         success: !dbError,
         data: dbData || null,
       });
-      
     }
+    return {
+      error: null,
+      success: true,
+      data: { results: uploadResults },
+    };
   }
 }
