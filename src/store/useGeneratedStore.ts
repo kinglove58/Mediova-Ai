@@ -7,7 +7,9 @@ interface GenerateState {
   loading: boolean;
   images: Array<{ url: string }>;
   error: string | null;
-  generateImage:(values:z.infer<typeof ImageGenerationFormSchema>)=>Promise<void>
+  generateImage: (
+    values: z.infer<typeof ImageGenerationFormSchema>
+  ) => Promise<void>;
 }
 
 const useGeneratedStore = create<GenerateState>((set) => ({
@@ -25,12 +27,13 @@ const useGeneratedStore = create<GenerateState>((set) => ({
         return;
       }
 
-      const dataWithUrl = data.map((url:string)=> {
-        return{
-            url
-        }
-      })
-      set({ images:dataWithUrl, loading: false });
+      const dataWithUrl = data.map((url: string) => {
+        return {
+          url,
+          ...values,
+        };
+      });
+      set({ images: dataWithUrl, loading: false });
     } catch (error) {
       console.log(error);
       set({

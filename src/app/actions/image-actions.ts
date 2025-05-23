@@ -1,7 +1,9 @@
 "use server";
 import { ImageGenerationFormSchema } from "@/components/image-generation/Configuration";
+import { createClient } from "@/lib/supabase/server";
 import Replicate from "replicate";
 import { z } from "zod";
+import { Database } from "@datatypes.types";
 
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
@@ -41,6 +43,25 @@ export async function generationImageAction(
   } catch (error: any) {
     return {
       error: error?.message || "An error occurred during image generation.",
+      success: false,
+      data: null,
+    };
+  }
+}
+
+type storeImageInput = {
+  url: string;
+} & Database["public"]["Tables"]["generated_images"]["Insert"];
+
+export async function storeImages(data: storeImageInput) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      error: "unauthorize",
       success: false,
       data: null,
     };
