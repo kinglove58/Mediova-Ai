@@ -90,22 +90,40 @@ export async function storeImages(data: storeImageInput[]) {
         upsert: false,
       });
     if (storageError) {
+      uploadResults.push({
+        fileName,
+        error: storageError.message,
+        success: false,
+        data: null,
+      });
       continue;
     }
 
-    await supabase.from("generated_images").insert([
-      {
-        user_id: user.id,
-        model: img.model,
-        prompt: img.prompt,
-        aspect_ratio: img.aspect_ratio,
-        guidance: img.guidance,
-        num_inference_steps: img.num_inference_steps,
-        output_format: img.output_format,
-        image_name: fileName,
-        width,
-        height,
-      },
-    ]).select();
+    const { data: dbData, error: dbError } = await supabase
+      .from("generated_images")
+      .insert([
+        {
+          user_id: user.id,
+          model: img.model,
+          prompt: img.prompt,
+          aspect_ratio: img.aspect_ratio,
+          guidance: img.guidance,
+          num_inference_steps: img.num_inference_steps,
+          output_format: img.output_format,
+          image_name: fileName,
+          width,
+          height,
+        },
+      ])
+      .select();
+    if (dbError) {
+      uploadResults.push({
+        fileName,
+        error: dbError.message,
+        success: !dbError,
+        data: dbData || null,
+      });
+      
+    }
   }
 }
