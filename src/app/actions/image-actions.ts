@@ -125,6 +125,7 @@ export async function storeImages(data: storeImageInput[]) {
       });
     }
   }
+  console.log("uploadResult:", uploadResults);
   return {
     error: null,
     success: true,
