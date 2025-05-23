@@ -1,7 +1,7 @@
 import { ImageGenerationFormSchema } from "@/components/image-generation/Configuration";
 import { create } from "zustand";
 import { z } from "zod";
-import { generationImageAction } from "@/app/actions/image-actions";
+import { generationImageAction, storeImages } from "@/app/actions/image-actions";
 
 interface GenerateState {
   loading: boolean;
@@ -34,6 +34,7 @@ const useGeneratedStore = create<GenerateState>((set) => ({
         };
       });
       set({ images: dataWithUrl, loading: false });
+      storeImages()
     } catch (error) {
       console.log(error);
       set({
