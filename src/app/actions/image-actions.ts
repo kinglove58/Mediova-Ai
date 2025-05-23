@@ -61,7 +61,7 @@ type storeImageInput = {
   url: string;
 } & Database["public"]["Tables"]["generated_images"]["Insert"];
 
-export async function storeImages(data: storeImageInput) {
+export async function storeImages(data: storeImageInput[]) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -75,10 +75,10 @@ export async function storeImages(data: storeImageInput) {
     };
   }
 
-  const uploadResults[];
+  const uploadResults = [];
   for(const img of data){
-    const arrayBuffer = await imgUrlToBlob();
-   imageMeta(new Uint8Array(arrayBuffer))
+    const arrayBuffer = await imgUrlToBlob(img.url);
+   const {width, height, type} =imageMeta(new Uint8Array(arrayBuffer))
 
   }
 }
