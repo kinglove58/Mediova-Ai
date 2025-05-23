@@ -37,7 +37,7 @@ const useGeneratedStore = create<GenerateState>((set) => ({
         };
       });
       set({ images: dataWithUrl, loading: false });
-      storeImages(dataWithUrl);
+      await storeImages(dataWithUrl);
     } catch (error) {
       console.log(error);
       set({

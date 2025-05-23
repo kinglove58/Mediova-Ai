@@ -49,6 +49,8 @@ export async function generationImageAction(
   }
 }
 
+export async function blob{}
+
 type storeImageInput = {
   url: string;
 } & Database["public"]["Tables"]["generated_images"]["Insert"];
@@ -65,5 +67,10 @@ export async function storeImages(data: storeImageInput) {
       success: false,
       data: null,
     };
+  }
+
+  const uploadResults[];
+  for(const img of data){
+    const arrayBuffer = await imgUrlToBlob();
   }
 }
