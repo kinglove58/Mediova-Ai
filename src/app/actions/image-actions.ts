@@ -124,10 +124,10 @@ export async function storeImages(data: storeImageInput[]) {
         data: dbData || null,
       });
     }
-    return {
-      error: null,
-      success: true,
-      data: { results: uploadResults },
-    };
   }
+  return {
+    error: null,
+    success: true,
+    data: { results: uploadResults },
+  };
 }
