@@ -133,7 +133,7 @@ export async function storeImages(data: storeImageInput[]) {
   };
 }
 
-export async function getImages(limit?: number[]) {
+export async function getImages(limit?: number) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -148,69 +148,21 @@ export async function getImages(limit?: number[]) {
   }
 
   let query = supabase
-    .from("generated-images")
+    .from("generated_images")
     .select("*")
     .eq("user_id", user.id)
     .order("created at", { ascending: false });
 
-    if(limit){
-      query = query.limit(limit)
-    }
-
-  const uploadResults = [];
-  for (const img of data) {
-    const arrayBuffer = await imgUrlToBlob(img.url);
-    const { width, height, type } = imageMeta(new Uint8Array(arrayBuffer));
-    const fileName = `image_${randomUUID()}.${type}`;
-    const filePath = `${user.id}/${fileName}`;
-
-    const { error: storageError } = await supabase.storage
-      .from("generated-images")
-      .upload(filePath, arrayBuffer, {
-        contentType: `image/${type}`,
-        cacheControl: "3600",
-        upsert: false,
-      });
-    if (storageError) {
-      uploadResults.push({
-        fileName,
-        error: storageError.message,
-        success: false,
-        data: null,
-      });
-      continue;
-    }
-
-    const { data: dbData, error: dbError } = await supabase
-      .from("generated_images")
-      .insert([
-        {
-          user_id: user.id,
-          model: img.model,
-          prompt: img.prompt,
-          aspect_ratio: img.aspect_ratio,
-          guidance: img.guidance,
-          num_inference_steps: img.num_inference_steps,
-          output_format: img.output_format,
-          image_name: fileName,
-          width,
-          height,
-        },
-      ])
-      .select();
-    if (dbError) {
-      uploadResults.push({
-        fileName,
-        error: dbError.message,
-        success: !dbError,
-        data: dbData || null,
-      });
-    }
+  if (limit) {
+    query = query.limit(limit);
   }
-  console.log("uploadResult:", uploadResults);
-  return {
-    error: null,
-    success: true,
-    data: { results: uploadResults },
-  };
+
+  const { data, error } = await query;
+  if (error) {
+    return {
+      error: error.message || "failed to fetch image!",
+      success: false,
+      data: null,
+    };
+  }
 }
