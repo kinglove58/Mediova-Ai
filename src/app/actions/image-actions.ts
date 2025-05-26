@@ -153,6 +153,10 @@ export async function getImages(limit?: number[]) {
     .eq("user_id", user.id)
     .order("created at", { ascending: false });
 
+    if(limit){
+      query = query.limit(limit)
+    }
+
   const uploadResults = [];
   for (const img of data) {
     const arrayBuffer = await imgUrlToBlob(img.url);
