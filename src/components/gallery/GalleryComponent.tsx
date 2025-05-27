@@ -15,7 +15,11 @@ const GalleryComponent = ({images}:GalleryProps) => {
   if(images.length = 0){
     return <div className="flex justify-center h-[50vh] items-center text-muted-foreground">No images found</div>
   }
-  return <div>GalleryComponent</div>;
+  return (
+    <section className="container mx-auto py-8">
+      <div className="columns-4 "></div>
+    </section>
+  )
 };
 
 export default GalleryComponent;
