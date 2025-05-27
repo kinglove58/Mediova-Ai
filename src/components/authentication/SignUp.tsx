@@ -52,6 +52,15 @@ const SignUp = ({ className }: { className?: string }) => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    // Check for validation errors before proceeding
+    if (form.formState.errors.email) {
+      toast.error(form.formState.errors.email.message || "Invalid email");
+      return;
+    }
+    if (form.formState.errors.password) {
+      toast.error(form.formState.errors.password.message || "Invalid password");
+      return;
+    }
     setLoading(true);
     toast.loading("signing up...", { id: toastId });
 

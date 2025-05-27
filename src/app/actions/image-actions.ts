@@ -2,7 +2,7 @@
 import { ImageGenerationFormSchema } from "@/components/image-generation/Configuration";
 import { createClient } from "@/lib/supabase/server";
 import Replicate from "replicate";
-import { z } from "zod";
+import { promise, z } from "zod";
 import { Database } from "@datatypes.types";
 import { imageMeta } from "image-meta";
 import { randomUUID } from "crypto";
@@ -165,4 +165,20 @@ export async function getImages(limit?: number) {
       data: null,
     };
   }
+
+  const imageWithUrl = await Promise.all(
+    data.map(async(image:Database["public"]["Tables"]["generated_images"]["Row"])=>(
+      const { data, error } = await supabase.storage
+  .from('generated-images')
+  .createSignedUrl(`${user.id}/${image.image_name}`, 3600)
+    )) 
+    
+    return{
+    ...image,
+    url: data?.signedUrl}
+  
+  )
+
+ 
+
 }
