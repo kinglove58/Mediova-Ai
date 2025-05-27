@@ -26,8 +26,14 @@ const GalleryComponent = ({ images }: GalleryProps) => {
         {images.map((image, index) => {
           return (
             <div key={index}>
-              <div className="relative overflow-hidden cursor-pointer transition-transform">
-                <div className="absolute inset-0 bg-black transition-opacity group hover:opacity-70 opacity-0 duration-300" />
+              <div className="relative group overflow-hidden cursor-pointer transition-transform">
+                <div className="absolute inset-0 bg-black transition-opacity group-hover:opacity-70 opacity-0 duration-300 rounded">
+                  <div className="flex items-center justify-center h-full">
+                    <p className="font-semibold text-lg text-primary-foreground">
+                      view details
+                    </p>
+                  </div>
+                </div>
                 <Image
                   src={image.url ?? ""}
                   alt={image.prompt ?? "Generated image"}
