@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Tables } from "@datatypes.types";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -52,7 +52,12 @@ const GalleryComponent = ({ images }: GalleryProps) => {
         })}
       </div>
 
-      {selectedImage && <ImageDialog image={selectedImage} />}
+      {selectedImage && (
+        <ImageDialog
+          image={selectedImage}
+          onclose={() => setSelectedImage(null)}
+        />
+      )}
     </section>
   );
 };
