@@ -9,7 +9,9 @@ interface GalleryProps {
   images: ImageProps[];
 }
 
-const GalleryComponent = () => {
+const GalleryComponent = ({images}:GalleryProps) => {
+  console.log(images);
+  
   return <div>GalleryComponent</div>;
 };
 
