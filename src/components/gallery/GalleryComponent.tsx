@@ -27,6 +27,7 @@ const GalleryComponent = ({ images }: GalleryProps) => {
           return (
             <div key={index}>
               <div className="relative overflow-hidden cursor-pointer transition-transform">
+                <div className="absolute inset-0 bg-black transition-opacity group hover:opacity-70 opacity-0 duration-300" />
                 <Image
                   src={image.url ?? ""}
                   alt={image.prompt ?? "Generated image"}
