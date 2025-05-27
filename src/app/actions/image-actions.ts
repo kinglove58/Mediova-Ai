@@ -157,28 +157,31 @@ export async function getImages(limit?: number) {
     query = query.limit(limit);
   }
 
-  const { data, error } = await query;
+  const { data: images, error } = await query;
   if (error) {
     return {
       error: error.message || "failed to fetch image!",
       success: false,
       data: null,
-    };
+    }
   }
 
   const imageWithUrl = await Promise.all(
-    data.map(async(image:Database["public"]["Tables"]["generated_images"]["Row"])=>(
-      const { data, error } = await supabase.storage
-  .from('generated-images')
-  .createSignedUrl(`${user.id}/${image.image_name}`, 3600)
-    )) 
-    
-    return{
-    ...image,
-    url: data?.signedUrl}
-  
-  )
+    images.map(async (image: Database["public"]["Tables"]["generated_images"]["Row"]) => {
+      const { data: signedUrlData } = await supabase.storage
+        .from('generated-images')
+        .createSignedUrl(`${user.id}/${image.image_name}`, 3600);
+      return {
+        ...image,
+        url: signedUrlData?.signedUrl
+      }
+    })
+  );
 
- 
+  return {
+    error: null,
+    success: true,
+    data: imageWithUrl || null
+  };
 
 }
