@@ -1,6 +1,8 @@
+"use client"
 import { Tables } from "@datatypes.types";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
+import ImageDialog from "./ImageDialog";
 
 type ImageProps = {
   url: string | undefined;
@@ -11,7 +13,7 @@ interface GalleryProps {
 }
 
 const GalleryComponent = ({ images }: GalleryProps) => {
-  console.log(images);
+  const [selectedImage, setSelectedImage] = useState<ImageProps | null>(null);
 
   if ((images.length = 0)) {
     return (
@@ -26,7 +28,10 @@ const GalleryComponent = ({ images }: GalleryProps) => {
         {images.map((image, index) => {
           return (
             <div key={index}>
-              <div className="relative group overflow-hidden cursor-pointer transition-transform">
+              <div
+                className="relative group overflow-hidden cursor-pointer transition-transform"
+                onClick={() => setSelectedImage(image)}
+              >
                 <div className="absolute inset-0 bg-black transition-opacity group-hover:opacity-70 opacity-0 duration-300 rounded">
                   <div className="flex items-center justify-center h-full">
                     <p className="font-semibold text-lg text-primary-foreground">
@@ -46,6 +51,8 @@ const GalleryComponent = ({ images }: GalleryProps) => {
           );
         })}
       </div>
+
+      {selectedImage && <ImageDialog image={selectedImage} />}
     </section>
   );
 };
