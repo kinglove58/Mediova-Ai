@@ -163,25 +163,45 @@ export async function getImages(limit?: number) {
       error: error.message || "failed to fetch image!",
       success: false,
       data: null,
-    }
+    };
   }
 
   const imageWithUrl = await Promise.all(
-    images.map(async (image: Database["public"]["Tables"]["generated_images"]["Row"]) => {
-      const { data: signedUrlData } = await supabase.storage
-        .from('generated-images')
-        .createSignedUrl(`${user.id}/${image.image_name}`, 3600);
-      return {
-        ...image,
-        url: signedUrlData?.signedUrl
+    images.map(
+      async (
+        image: Database["public"]["Tables"]["generated_images"]["Row"]
+      ) => {
+        const { data: signedUrlData } = await supabase.storage
+          .from("generated-images")
+          .createSignedUrl(`${user.id}/${image.image_name}`, 3600);
+        return {
+          ...image,
+          url: signedUrlData?.signedUrl,
+        };
       }
-    })
+    )
   );
 
   return {
     error: null,
     success: true,
-    data: imageWithUrl || null
+    data: imageWithUrl || null,
   };
+}
 
+export async function deleteImages(limit?: number) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      error: "unauthorize",
+      success: false,
+      data: null,
+    };
+  }
+
+  const {data, error}
 }
