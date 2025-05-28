@@ -46,13 +46,69 @@ const ImageDialog = ({ image, onclose }: ImageDialogProps) => {
             {image.prompt}
           </p>
           <hr className="inline-block w-full border-primary/30 my-3" />
-          <div>
-            <Badge variant={"secondary"}>
-              {" "}
+          <div className="flex flex-wrap gap-3">
+            <Badge
+              variant={"secondary"}
+              className="rounded-full border border-primary/30 px-4 py-2 text-sm font-normal"
+            >
               <span className="uppercase mr-2 text-primary font-semibold ">
                 Model-Id:
-                {image.model}
-              </span>
+              </span>{" "}
+              {image.model}
+            </Badge>
+            <Badge
+              variant={"secondary"}
+              className="rounded-full border border-primary/30 px-4 py-2 text-sm font-normal"
+            >
+              <span className="uppercase mr-2 text-primary font-semibold ">
+                Aspect_ratio:
+              </span>{" "}
+              {image.aspect_ratio}
+            </Badge>
+            <Badge
+              variant={"secondary"}
+              className="rounded-full border border-primary/30 px-4 py-2 text-sm font-normal"
+            >
+              <span className="uppercase mr-2 text-primary font-semibold ">
+                Dimension
+              </span>{" "}
+              {image.width} X {image.height}
+            </Badge>
+            <Badge
+              variant={"secondary"}
+              className="rounded-full border border-primary/30 px-4 py-2 text-sm font-normal"
+            >
+              <span className="uppercase mr-2 text-primary font-semibold ">
+                guidance:
+              </span>{" "}
+              {image.guidance}
+            </Badge>
+            <Badge
+              variant={"secondary"}
+              className="rounded-full border border-primary/30 px-4 py-2 text-sm font-normal"
+            >
+              <span className="uppercase mr-2 text-primary font-semibold ">
+                inference_steps:
+              </span>{" "}
+              {image.num_inference_steps}
+            </Badge>{" "}
+            <Badge
+              variant={"secondary"}
+              className="rounded-full border border-primary/30 px-4 py-2 text-sm font-normal"
+            >
+              <span className="uppercase mr-2 text-primary font-semibold ">
+                output_format:
+              </span>{" "}
+              {image.output_format}
+            </Badge>{" "}
+            <Badge
+              variant={"secondary"}
+              className="rounded-full border border-primary/30 px-4 py-2 text-sm font-normal"
+            >
+              <span className="uppercase mr-2 text-primary font-semibold ">
+                Created At:
+              </span>{" "}
+              {new Date(image.created_at).toLocaleDateString()}
             </Badge>
           </div>
         </SheetHeader>
