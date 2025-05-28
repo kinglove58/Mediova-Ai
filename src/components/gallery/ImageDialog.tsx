@@ -11,14 +11,35 @@ import {
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { Download, Trash } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Badge } from "../ui/badge";
+import { link } from "fs";
 
 interface ImageDialogProps {
   image: { url: string | undefined } & Tables<"generated_images">;
   onclose: () => void;
 }
 const ImageDialog = ({ image, onclose }: ImageDialogProps) => {
+  const handleDownload = () => {
+    fetch(image.url || "")
+      .then((response) => response.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(new Blob([blob]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute(
+          "download",
+          `generated-images-${Date.now()}.${image?.output_format}`
+        );
+
+        document.body.appendChild(link);
+        link.click();
+
+        //clean up
+        link.parentNode?.removeChild(link);
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <Sheet open={true} onOpenChange={onclose}>
       <SheetContent className="max-w-full sm:max-w-xl w-full">
@@ -34,7 +55,7 @@ const ImageDialog = ({ image, onclose }: ImageDialogProps) => {
                 className="object-cover rounded"
               />{" "}
               <div className="flex absolute bottom-4 right-4 gap-4">
-                <Button className="w-fit">
+                <Button className="w-fit" onClick={handleDownload}>
                   <Download className="w-4 h-4 mr-2" /> Download
                 </Button>{" "}
                 <Button className="w-fit" variant={"destructive"}>
@@ -112,7 +133,8 @@ const ImageDialog = ({ image, onclose }: ImageDialogProps) => {
                 </span>{" "}
                 {new Date(image.created_at).toLocaleDateString()}
               </Badge>
-            </div>
+            </div>{" "}
+            <ScrollBar orientation="vertical" />
           </ScrollArea>
         </SheetHeader>
       </SheetContent>
