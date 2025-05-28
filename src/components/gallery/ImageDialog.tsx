@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { Download, Trash } from "lucide-react";
+import { Badge } from "../ui/badge";
 
 interface ImageDialogProps {
   image: { url: string | undefined } & Tables<"generated_images">;
@@ -39,11 +40,21 @@ const ImageDialog = ({ image, onclose }: ImageDialogProps) => {
               </Button>
             </div>
           </div>
-          <hr className="inline-block w-full border-primary/30" />
+          <hr className="inline-block w-full border-primary/30 mb-2" />
           <p className="flex flex-col text-primary/90">
-            <span>Prompt</span>
+            <span className="text-primary text-xl font-semibold">Prompt</span>
             {image.prompt}
           </p>
+          <hr className="inline-block w-full border-primary/30 my-3" />
+          <div>
+            <Badge variant={"secondary"}>
+              {" "}
+              <span className="uppercase mr-2 text-primary font-semibold ">
+                Model-Id:
+                {image.model}
+              </span>
+            </Badge>
+          </div>
         </SheetHeader>
       </SheetContent>
     </Sheet>
