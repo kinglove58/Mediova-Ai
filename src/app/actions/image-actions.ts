@@ -189,7 +189,7 @@ export async function getImages(limit?: number) {
   };
 }
 
-export async function deleteImages(limit?: number) {
+export async function deleteImages(id: string) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -203,5 +203,17 @@ export async function deleteImages(limit?: number) {
     };
   }
 
-  const {data, error}
+  const { data, error } = await supabase
+    .from("generated_images")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    return { error: error.message, success: false, data: null };
+  }
+  return {
+    error: null,
+    success: true,
+    data: data,
+  };
 }
