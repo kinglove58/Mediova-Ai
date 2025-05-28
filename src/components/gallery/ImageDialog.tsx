@@ -24,7 +24,7 @@ const ImageDialog = ({ image, onclose }: ImageDialogProps) => {
       <SheetContent className="max-w-full sm:max-w-xl w-full">
         <SheetHeader>
           <SheetTitle className="text-2xl w-full">Image Details</SheetTitle>
-          <ScrollArea className="h-72 w-48 rounded-md border">
+          <ScrollArea className="h-[100vh] flex flex-col">
             <div className="relative w-fit h-fit">
               <Image
                 src={image.url ?? ""}
