@@ -14,6 +14,7 @@ import { Download, Trash } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Badge } from "../ui/badge";
 import { link } from "fs";
+import DeleteImage from "./DeleteImage";
 
 interface ImageDialogProps {
   image: { url: string | undefined } & Tables<"generated_images">;
@@ -58,9 +59,11 @@ const ImageDialog = ({ image, onclose }: ImageDialogProps) => {
                 <Button className="w-fit" onClick={handleDownload}>
                   <Download className="w-4 h-4 mr-2" /> Download
                 </Button>{" "}
-                <Button className="w-fit" variant={"destructive"}>
-                  <Trash className="w-4 h-4" /> Trash
-                </Button>
+                <DeleteImage
+                  imageId={image.id.toString()}
+                  onDelete={onclose}
+                  className="w-fit"
+                />
               </div>
             </div>
             <hr className="inline-block w-full border-primary/30 mb-2" />
