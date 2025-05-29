@@ -203,10 +203,14 @@ export async function deleteImages(id: string) {
     };
   }
 
+
+
   const { data, error } = await supabase
     .from("generated_images")
     .delete()
     .eq("id", id);
+
+  await supabase.storage.from('generate-images').remove([`${user.id}/${imageName}`])
 
   if (error) {
     return { error: error.message, success: false, data: null };

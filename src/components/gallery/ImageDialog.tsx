@@ -62,6 +62,7 @@ const ImageDialog = ({ image, onclose }: ImageDialogProps) => {
                 <DeleteImage
                   imageId={image.id.toString()}
                   onDelete={onclose}
+                  image={image.image_name}
                   className="w-fit"
                 />
               </div>
