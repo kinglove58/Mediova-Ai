@@ -20,15 +20,21 @@ interface DeleteImageProps {
   imageId: string;
   onDelete?: () => void;
   className?: string;
+  imageName: string;
 }
 
-const DeleteImage = ({ imageId, onDelete, className }: DeleteImageProps) => {
+const DeleteImage = ({
+  imageId,
+  onDelete,
+  className,
+  imageName,
+}: DeleteImageProps) => {
   const toastId = useId();
 
   const handleDelete = async () => {
     toast.loading("Deleting the image...", { id: toastId });
 
-    const { error, success } = await deleteImages(imageId);
+    const { error, success } = await deleteImages(imageId, imageName);
     if (error) {
       toast.error(error, { id: toastId });
     } else if (success) {

@@ -189,7 +189,7 @@ export async function getImages(limit?: number) {
   };
 }
 
-export async function deleteImages(id: string) {
+export async function deleteImages(id: string, imageName:string) {
   const supabase = await createClient();
   const {
     data: { user },
