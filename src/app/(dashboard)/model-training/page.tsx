@@ -1,9 +1,16 @@
-import React from 'react'
+import ModelTrainingForm from "@/components/models/ModelTrainingForm";
+import React from "react";
 
-const billing = () => {
+const ModelTraining = () => {
   return (
-    <div>billing</div>
-  )
-}
+    <section className="container mx-auto">
+      <h1 className="text-3xl font-bold mb-2">Train Model</h1>
+      <p className="text-muted-foreground text-sm mb-6 ">
+        Train a new model with your new images
+      </p>
+      <ModelTrainingForm/>
+    </section>
+  );
+};
 
-export default billing
+export default ModelTraining;
