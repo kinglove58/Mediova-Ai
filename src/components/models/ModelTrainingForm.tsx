@@ -1,7 +1,21 @@
 "use client";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
 import React from "react";
 
 const ACCEPTED_ZIP_FILES = ["application/x-zip-compressed", "application/zip"];
@@ -32,7 +46,68 @@ const ModelTrainingForm = () => {
     },
   });
 
-  return <div>ModelTrainingForm</div>;
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    console.log(values);
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <fieldset className="grid bg-foreground p-8">
+          <FormField
+            control={form.control}
+            name="modelName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Model Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter your model name" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This will be the name of your train model.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </fieldset>
+        <FormField
+          control={form.control}
+          name="type"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>Notify me about...</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex flex-col"
+                >
+                  <FormItem className="flex items-center gap-3">
+                    <FormControl>
+                      <RadioGroupItem value="man" />
+                    </FormControl>
+                    <FormLabel className="font-normal">male</FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center gap-3">
+                    <FormControl>
+                      <RadioGroupItem value="woman" />
+                    </FormControl>
+                    <FormLabel className="font-normal">female </FormLabel>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit">Submit</Button>
+      </form>
+    </Form>
+  );
 };
 
 export default ModelTrainingForm;
