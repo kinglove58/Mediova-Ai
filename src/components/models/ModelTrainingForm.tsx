@@ -75,10 +75,10 @@ const ModelTrainingForm = () => {
         </fieldset>
         <FormField
           control={form.control}
-          name="type"
+          name="gender"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel>Notify me about...</FormLabel>
+              <FormLabel>please select the gender of the image</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
