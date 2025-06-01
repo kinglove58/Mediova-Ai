@@ -27,8 +27,8 @@ const ModelTrainingForm = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       modelName: "",
-      gender: undefined,
-      zipfile: "",
+      gender: "man",
+      zipfile: "undefined",
     },
   });
 
