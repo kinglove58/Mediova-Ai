@@ -55,7 +55,7 @@ const ModelTrainingForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <fieldset className="grid bg-foreground p-8">
+        <fieldset className="grid bg-background max-w-5xl p-8 rounded-lg gap-6">
           <FormField
             control={form.control}
             name="modelName"
@@ -72,39 +72,40 @@ const ModelTrainingForm = () => {
               </FormItem>
             )}
           />
-        </fieldset>
-        <FormField
-          control={form.control}
-          name="gender"
-          render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel>please select the gender of the image</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex flex-col"
-                >
-                  <FormItem className="flex items-center gap-3">
-                    <FormControl>
-                      <RadioGroupItem value="man" />
-                    </FormControl>
-                    <FormLabel className="font-normal">male</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center gap-3">
-                    <FormControl>
-                      <RadioGroupItem value="woman" />
-                    </FormControl>
-                    <FormLabel className="font-normal">female </FormLabel>
-                  </FormItem>
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
-        <Button type="submit">Submit</Button>
+          <FormField
+            control={form.control}
+            name="gender"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>please select the gender of the image</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col"
+                  >
+                    <FormItem className="flex items-center gap-3">
+                      <FormControl>
+                        <RadioGroupItem value="man" />
+                      </FormControl>
+                      <FormLabel className="font-normal">male</FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center gap-3">
+                      <FormControl>
+                        <RadioGroupItem value="woman" />
+                      </FormControl>
+                      <FormLabel className="font-normal">female </FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit">Submit</Button>
+        </fieldset>
       </form>
     </Form>
   );
