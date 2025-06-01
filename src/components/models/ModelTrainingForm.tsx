@@ -1,5 +1,7 @@
 "use client";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 import React from "react";
 
 const ACCEPTED_ZIP_FILES = ["application/x-zip-compressed", "application/zip"];
@@ -21,6 +23,13 @@ const formSchema = z.object({
 });
 
 const ModelTrainingForm = () => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: "",
+    },
+  });
+
   return <div>ModelTrainingForm</div>;
 };
 
