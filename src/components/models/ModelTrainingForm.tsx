@@ -103,6 +103,22 @@ const ModelTrainingForm = () => {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="modelName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Model Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter your model name" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This will be the name of your train model.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <Button type="submit">Submit</Button>
         </fieldset>
