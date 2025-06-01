@@ -105,12 +105,44 @@ const ModelTrainingForm = () => {
           />
           <FormField
             control={form.control}
-            name="modelName"
+            name="zipfile"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Model Name</FormLabel>
+                <FormLabel>
+                  Training data (zip file) |{" "}
+                  <span className="text-destructive">
+                    Read the rquirement below
+                  </span>{" "}
+                  <div className="mb-4 rounded-lg shadow-md pb-4 text-card-foreground">
+                    <ul className="list-disc space-y-2 text-sm text-muted-foreground">
+                      <li>Provide 10, 12 or 15 images in total</li>
+                      <li>
+                        Ideal breakdown for 12 images:
+                        <ul className="list-disc ml-6">
+                          <li>6 face closeups</li>
+                          <li>3/4 half body closeups (till stomach)</li>
+                          <li>2/3 full body shots</li>
+                        </ul>
+                      </li>
+                      <li>No accessories on face/head ideally</li>
+                      <li>No other people in images</li>
+                      <li>
+                        Different expressions, clothing, backgrounds with good
+                        lighting
+                      </li>
+                      <li>
+                        Images to be in 1:1 resolution (1048x1048 or higher)
+                      </li>
+                      <li>
+                        Use images of similar age group (ideally within past few
+                        months)
+                      </li>
+                      <li>Provide only zip file (under 45MB size)</li>
+                    </ul>
+                  </div>
+                </FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your model name" {...field} />
+                  <Input placeholder="upload file" {...field} />
                 </FormControl>
                 <FormDescription>
                   This will be the name of your train model.
