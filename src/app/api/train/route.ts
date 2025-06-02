@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     console.log("this is the input ", input)
      return NextResponse.json(
       {
-        success: errorMessage,
+        success: true,
       },
       { status: 201 }
     );
