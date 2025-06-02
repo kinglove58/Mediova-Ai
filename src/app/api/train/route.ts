@@ -28,6 +28,13 @@ export async function POST(request: NextRequest) {
       modelName: formData.get("modelName") as string,
       gender: formData.get("gender") as string,
     };
+    console.log("this is the input ", input)
+     return NextResponse.json(
+      {
+        success: errorMessage,
+      },
+      { status: 201 }
+    );
 
     // Return a success response or whatever is appropriate
     return NextResponse.json(
