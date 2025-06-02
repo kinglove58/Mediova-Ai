@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(rquest: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
     if (!process.env.REPLICATE_API_TOKEN) {
       throw new Error("the replicate api is not valid");
@@ -21,8 +21,13 @@ export async function POST(rquest: NextRequest) {
       );
     }
 
-    const formData = await rquest.formData();
+    const formData = await request.formData();
     // You can add your training logic here
+    const input = {
+      fileKey: formData.get("fileKey") as string,
+      modelName: formData.get("modelName") as string,
+      gender: formData.get("gender") as string,
+    };
 
     // Return a success response or whatever is appropriate
     return NextResponse.json(
