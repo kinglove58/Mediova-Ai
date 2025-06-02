@@ -52,10 +52,12 @@ const ModelTrainingForm = () => {
     console.log(values);
   }
 
+  const fileRef = form.register("zipfile")
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <fieldset className="grid bg-background max-w-5xl p-8 rounded-lg gap-6">
+        <fieldset className="grid bg-background max-w-5xl p-8 rounded-lg gap-6 border">
           <FormField
             control={form.control}
             name="modelName"
@@ -113,12 +115,12 @@ const ModelTrainingForm = () => {
                   <span className="text-destructive">
                     Read the rquirement below
                   </span>{" "}
-                  <div className="mb-4 rounded-lg shadow-md pb-4 text-card-foreground">
+                  <div className="mb-4 rounded-lg shadow-sm pb-4 text-card-foreground">
                     <ul className="list-disc space-y-2 text-sm text-muted-foreground">
                       <li>Provide 10, 12 or 15 images in total</li>
                       <li>
                         Ideal breakdown for 12 images:
-                        <ul className="list-disc ml-6">
+                        <ul className="list-disc ml-3 mt-1 space-y-1">
                           <li>6 face closeups</li>
                           <li>3/4 half body closeups (till stomach)</li>
                           <li>2/3 full body shots</li>
@@ -142,17 +144,17 @@ const ModelTrainingForm = () => {
                   </div>
                 </FormLabel>
                 <FormControl>
-                  <Input placeholder="upload file" {...field} />
+                  <Input type="file" accept=".zip" {...fileRef} />
                 </FormControl>
                 <FormDescription>
-                  This will be the name of your train model.
+                 upload your zip file 
                 </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <Button type="submit">Submit</Button>
+          <Button type="submit" className="w-fit">Submit</Button>
         </fieldset>
       </form>
     </Form>
