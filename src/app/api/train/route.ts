@@ -21,7 +21,17 @@ export async function POST(rquest: NextRequest) {
       );
     }
 
-    const formData = await rquest.formData()
+    const formData = await rquest.formData();
+    // You can add your training logic here
+
+    // Return a success response or whatever is appropriate
+    return NextResponse.json(
+      {
+        message: "Training started successfully",
+      },
+      { status: 200 }
+    );
+  } catch (error) {
     console.error("traning error", error);
 
     const errorMessage =
