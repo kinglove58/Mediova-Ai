@@ -53,13 +53,22 @@ const ModelTrainingForm = () => {
 
     try {
       const data = await getPresignedStorageUrl(values.zipfile[0].name);
-      console.log(data);
+
       if (data.error) {
         toast.error(data.error || "failed to upload the file ", {
           id: toastId,
         });
         return;
       }
+
+      //uploading file
+      await fetch(data.signedUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": values.zipfile[0].type,
+        },
+        body: values.zipfile[0],
+      });
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "failed to training";
