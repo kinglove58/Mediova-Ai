@@ -8,13 +8,10 @@ export async function getPresignedStorageUrl(
   const fileName = `${userId}/${Date.now()}_${filePath}`;
   const { data: urlData, error } = await supabaseAdmin.storage
     .from("training-data")
-    .createSignedUrl(fileName, 60 * 5); // URL valid for 5 minutes
+    .createSignedUploadUrl(fileName); // URL valid for 5 minutes
 
   return {
     signedUrl: urlData?.signedUrl || "",
     error: error?.message || "",
   };
-  if (error) {
-    throw error;
-  }
 }
