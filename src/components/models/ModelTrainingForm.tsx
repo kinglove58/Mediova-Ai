@@ -62,13 +62,18 @@ const ModelTrainingForm = () => {
       }
 
       //uploading file
-      await fetch(data.signedUrl, {
+      const urlResponse = await fetch(data.signedUrl, {
         method: "PUT",
         headers: {
           "Content-Type": values.zipfile[0].type,
         },
         body: values.zipfile[0],
       });
+
+      if (!urlResponse.ok) {
+        throw new Error("upload failed");
+      }
+      const res = urlResponse.json();
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "failed to training";
