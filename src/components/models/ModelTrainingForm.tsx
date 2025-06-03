@@ -16,7 +16,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import React from "react";
+import React, { useId } from "react";
+import { getPresignedStorageUrl } from "@/app/actions/model-action";
 
 const ACCEPTED_ZIP_FILES = ["application/x-zip-compressed", "application/zip"];
 const MAX_FILE_SIZE = 45 * 1024 * 1024;
@@ -37,6 +38,7 @@ const formSchema = z.object({
 });
 
 const ModelTrainingForm = () => {
+  const toastId = useId();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,13 +48,27 @@ const ModelTrainingForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    toast.loading("uploading...", { id: toastId });
+
+    try {
+      const data = await getPresignedStorageUrl(values.zipfile[0].name);
+      console.log(data);
+      if (data.error) {
+        toast.error(data.error || "failed to upload the file ", {
+          id: toastId,
+        });
+        return;
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "failed to training";
+      toast.error(errorMessage, { id: toastId, duration: 5000 });
+    }
     console.log(values);
   }
 
-  const fileRef = form.register("zipfile")
+  const fileRef = form.register("zipfile");
 
   return (
     <Form {...form}>
@@ -108,7 +124,7 @@ const ModelTrainingForm = () => {
           <FormField
             control={form.control}
             name="zipfile"
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>
                   Training data (zip file) |{" "}
@@ -146,15 +162,15 @@ const ModelTrainingForm = () => {
                 <FormControl>
                   <Input type="file" accept=".zip" {...fileRef} />
                 </FormControl>
-                <FormDescription>
-                 upload your zip file 
-                </FormDescription>
+                <FormDescription>upload your zip file</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <Button type="submit" className="w-fit">Submit</Button>
+          <Button type="submit" className="w-fit">
+            Submit
+          </Button>
         </fieldset>
       </form>
     </Form>
