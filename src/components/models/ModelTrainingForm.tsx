@@ -75,6 +75,11 @@ const ModelTrainingForm = () => {
       }
       const res = await urlResponse.json();
       toast.success("successfull uploaded", { id: toastId });
+
+      const formData = new FormData();
+      formData.append("modelName", values.modelName);
+      formData.append("zipfile", values.zipfile);
+      formData.append("gender", values.gender);
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "failed to training";
