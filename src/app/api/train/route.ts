@@ -1,3 +1,4 @@
+import { supabaseAdmin } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -35,7 +36,14 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-const fileName = input.fileKey.replace("training_data/", "")
+    const fileName = input.fileKey.replace("training_data/", "");
+    const { data: fileUrl } = await supabaseAdmin.storage
+      .from("training_data")
+      .createSignedUrl(fileName, 3600);
+    if (!fileUrl?.signedUrl) {
+      throw new Error("failed to get the url");
+    }
+
     return NextResponse.json(
       {
         success: true,
