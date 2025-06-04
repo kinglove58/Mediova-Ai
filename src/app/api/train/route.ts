@@ -1,8 +1,10 @@
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
+import Replicate from "replicate";
 
 export async function POST(request: NextRequest) {
+  const replicate = new Replicate({ auth: process.env.REPLICATE });
   try {
     if (!process.env.REPLICATE_API_TOKEN) {
       throw new Error("the replicate api is not valid");
@@ -43,6 +45,10 @@ export async function POST(request: NextRequest) {
     if (!fileUrl?.signedUrl) {
       throw new Error("failed to get the url");
     }
+
+    const hardware = await replicate.hardware.list()
+
+    // await replicate.models.create("techking", modelId)
 
     return NextResponse.json(
       {
