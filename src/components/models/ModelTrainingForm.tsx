@@ -80,7 +80,6 @@ const ModelTrainingForm = () => {
         error instanceof Error ? error.message : "failed to training";
       toast.error(errorMessage, { id: toastId, duration: 5000 });
     }
-    console.log(values);
   }
 
   const fileRef = form.register("zipfile");
