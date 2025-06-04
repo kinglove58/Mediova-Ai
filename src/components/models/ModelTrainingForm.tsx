@@ -80,6 +80,17 @@ const ModelTrainingForm = () => {
       formData.append("modelName", values.modelName);
       formData.append("fileKey", res.key);
       formData.append("gender", values.gender);
+
+      //push
+      const response = await fetch("/api/train", {
+        method: "POST",
+        body: formData,
+      });
+
+      const results = await response.json();
+      if (!response.ok || results?.error) {
+        throw new Error(results?.error || "failed to train model");
+      }
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "failed to training";

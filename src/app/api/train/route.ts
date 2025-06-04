@@ -28,8 +28,15 @@ export async function POST(request: NextRequest) {
       modelName: formData.get("modelName") as string,
       gender: formData.get("gender") as string,
     };
-    console.log("this is the input ", input)
-     return NextResponse.json(
+
+    if (!input.fileKey || !input.modelName) {
+      return NextResponse.json(
+        { error: "misssing required key" },
+        { status: 400 }
+      );
+    }
+const fileName = input.fileKey.replace("training_data/", "")
+    return NextResponse.json(
       {
         success: true,
       },
