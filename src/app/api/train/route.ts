@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       throw new Error("failed to get the url");
     }
 
-    const hardware = await replicate.hardware.list()
+    const hardware = await replicate.hardware.list();
 
     // await replicate.models.create("techking", modelId)
 
