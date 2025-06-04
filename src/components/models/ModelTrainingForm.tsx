@@ -78,7 +78,7 @@ const ModelTrainingForm = () => {
 
       const formData = new FormData();
       formData.append("modelName", values.modelName);
-      formData.append("zipfile", values.zipfile);
+      formData.append("fileKey", res.key);
       formData.append("gender", values.gender);
     } catch (error) {
       const errorMessage =
