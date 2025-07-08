@@ -272,10 +272,18 @@ const Configuration = () => {
                           <Info className="w-4 h-4" />
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>
-                            Set the number of inference steps (20-50) for image
-                            generation.
-                          </p>
+                          {form.getValues("model") ===
+                          "black-forest-labs/flux-schnell" ? (
+                            <p>
+                              Set the number of inference steps (2-4) for image
+                              generation.
+                            </p>
+                          ) : (
+                            <p>
+                              Set the number of inference steps (20-50) for
+                              image generation.
+                            </p>
+                          )}
                         </TooltipContent>
                       </Tooltip>
                     </div>
