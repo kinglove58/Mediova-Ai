@@ -48,7 +48,8 @@ export async function POST(request: NextRequest) {
 
     const hardware = await replicate.hardware.list();
 
-    // await replicate.models.create("techking", modelId)
+    await replicate.models.create("techking", modelId, {
+    visibility: "private"})
 
     return NextResponse.json(
       {

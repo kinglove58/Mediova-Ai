@@ -73,7 +73,7 @@ const Configuration = () => {
       guidance: 3.5,
       num_outputs: 1,
       output_quality: 80,
-      num_inference_steps: 28,
+      num_inference_steps: 4, // Default to 4 for 'black-forest-labs/flux-schnell'
       output_format: "jpg",
     },
   });
@@ -82,15 +82,12 @@ const Configuration = () => {
     const subscription = form.watch((value, { name }) => {
       if (name === "model") {
         let newSteps;
-
         if (value.model === "black-forest-labs/flux-schnell") {
           newSteps = 4;
         } else {
           newSteps = 28;
         }
-        if (newSteps !== undefined) {
-          form.setValue("num_inference_steps", newSteps);
-        }
+        form.setValue("num_inference_steps", newSteps);
       }
     });
     return () => subscription.unsubscribe();
@@ -286,7 +283,7 @@ const Configuration = () => {
                   </FormLabel>
                   <FormControl>
                     <Slider
-                      defaultValue={[field.value]}
+                      value={[field.value]} // use value, not defaultValue
                       min={1}
                       max={
                         form.getValues("model") ===
