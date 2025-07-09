@@ -38,14 +38,13 @@ export async function generationImageAction(
     const output = await replicate.run(input.model as `${string}/${string}`, {
       input: modelInput,
     });
-    console.log("the output:", output);
     return {
       error: null,
       success: true,
       data: output,
     };
   } catch (error: any) {
-    console.log("Error")
+    console.log("Error:", error.message);
     return {
       error: error?.message || "An error occurred during image generation.",
       success: false,
