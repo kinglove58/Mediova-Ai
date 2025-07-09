@@ -94,8 +94,14 @@ const Configuration = () => {
   }, [form]);
 
   async function onSubmit(values: z.infer<typeof ImageGenerationFormSchema>) {
-    const { error, success, data } = await generationImageAction(values);
-    console.log(error, success, data);
+    // const { error, success, data } = await generationImageAction(values);
+    // if (success && data && Object.keys(data).length > 0) {
+    //   generateImage(data as z.infer<typeof ImageGenerationFormSchema>); // This updates the Zustand store
+    // } else if (success) {
+    //   generateImage(values); // fallback to submitted values if data is empty
+    // }
+
+    await generateImage(values)
   }
 
   return (

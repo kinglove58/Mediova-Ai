@@ -9,12 +9,13 @@ import { randomUUID } from "crypto";
 
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
+  useFileOutput: false,
 });
 
 interface ImageResponse {
   error: string | null;
   success: boolean;
-  data?: unknown | null;
+  data: any | null;
 }
 
 export async function generationImageAction(
@@ -37,12 +38,14 @@ export async function generationImageAction(
     const output = await replicate.run(input.model as `${string}/${string}`, {
       input: modelInput,
     });
+    console.log("the output:", output);
     return {
       error: null,
       success: true,
       data: output,
     };
   } catch (error: any) {
+    console.log("Error")
     return {
       error: error?.message || "An error occurred during image generation.",
       success: false,
@@ -189,7 +192,7 @@ export async function getImages(limit?: number) {
   };
 }
 
-export async function deleteImages(id: string, imageName:string) {
+export async function deleteImages(id: string, imageName: string) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -203,14 +206,14 @@ export async function deleteImages(id: string, imageName:string) {
     };
   }
 
-
-
   const { data, error } = await supabase
     .from("generated_images")
     .delete()
     .eq("id", id);
 
-  await supabase.storage.from('generate-images').remove([`${user.id}/${imageName}`])
+  await supabase.storage
+    .from("generate-images")
+    .remove([`${user.id}/${imageName}`]);
 
   if (error) {
     return { error: error.message, success: false, data: null };
