@@ -15,12 +15,10 @@ type GeneratedImage = {
 interface GenerateState {
   loading: boolean;
   // images: Array<{ url: string }>;
-  images: GeneratedImage[],
+  images: GeneratedImage[];
   error: string | null;
   generateImage: (values: ImageGenerationInput) => Promise<void>;
 }
-
-
 
 const useGeneratedStore = create<GenerateState>((set) => ({
   loading: false,
@@ -32,31 +30,29 @@ const useGeneratedStore = create<GenerateState>((set) => ({
     const toastid = toast.loading("Generating image...");
     try {
       const { success, error, data } = await generationImageAction(values);
-      console.log("generationImageAction data:", data);
-      console.log("generationImageAction error:", error);
 
       if (!success || !data || !Array.isArray(data)) {
         set({
           loading: false,
           error: error || "No data returned from image generation.",
         });
+        toast.dismiss(toastid);
         toast.error(error || "No data returned from image generation.");
         return;
       }
 
       const dataWithUrl: GeneratedImage[] = data.map((url) => {
-        console.log("url in data.map:", url);
         return {
           url,
           ...values,
         };
       });
-      console.log("dataWithUrl:", dataWithUrl);
 
       set((state) => ({
         images: [...state.images, ...dataWithUrl],
         loading: false,
       }));
+      toast.dismiss(toastid);
       toast.success("Image Generated successfully!");
       await storeImages(dataWithUrl);
       toast.success("Image stored succefully!");
@@ -66,6 +62,7 @@ const useGeneratedStore = create<GenerateState>((set) => ({
         error: "failed to generate image please try again later",
         loading: false,
       });
+      toast.dismiss(toastid);
       toast.error("Failed to generate image.");
     }
   },
