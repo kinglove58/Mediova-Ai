@@ -420,7 +420,7 @@ const Configuration = () => {
                   Generating...
                 </>
               ) : (
-                "Generate"
+                "Generate it"
               )}
             </Button>
           </fieldset>
