@@ -33,7 +33,6 @@ import useGeneratedStore from "@/store/useGeneratedStore";
 const GeneratedImages = () => {
   const images = useGeneratedStore((state) => state.images);
   const loading = useGeneratedStore((state) => state.loading);
-  console.log("this sis the image object", images)
 
   if (images.length === 0) {
     return (
