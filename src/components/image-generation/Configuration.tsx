@@ -98,9 +98,12 @@ const Configuration = () => {
   }, [form]);
 
   async function onSubmit(values: z.infer<typeof ImageGenerationFormSchema>) {
-    setClick(true);
-    await generateImage(values);
-    setClick(false);
+    setClick(true); // disable button immediately
+    try {
+      await generateImage(values); // triggers loading via Zustand
+    } finally {
+      setClick(false); // re-enable after attempt (even on error)
+    }
   }
 
   return (
@@ -408,10 +411,17 @@ const Configuration = () => {
             />
             <Button
               type="submit"
-              className="font-semibold"
+              className="font-semibold flex items-center gap-2"
               disabled={click || loading}
             >
-              Generate
+              {loading ? (
+                <>
+                  <span className="animate-spin border-2 border-t-transparent border-white rounded-full w-4 h-4" />
+                  Generating...
+                </>
+              ) : (
+                "Generate"
+              )}
             </Button>
           </fieldset>
         </form>

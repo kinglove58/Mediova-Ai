@@ -15,7 +15,7 @@ interface GalleryProps {
 const GalleryComponent = ({ images }: GalleryProps) => {
   const [selectedImage, setSelectedImage] = useState<ImageProps | null>(null);
 
-  if ((images.length = 0)) {
+  if (images.length === 0) {
     return (
       <div className="flex justify-center h-[50vh] items-center text-muted-foreground">
         No images found
