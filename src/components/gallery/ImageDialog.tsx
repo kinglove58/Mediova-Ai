@@ -3,22 +3,20 @@ import React from "react";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { Download, Trash } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Badge } from "../ui/badge";
-import { link } from "fs";
 import DeleteImage from "./DeleteImage";
 
 interface ImageDialogProps {
   image: { url: string | undefined } & Tables<"generated_images">;
   onclose: () => void;
+  className?: string;
 }
 const ImageDialog = ({ image, onclose }: ImageDialogProps) => {
   const handleDownload = () => {
@@ -46,7 +44,7 @@ const ImageDialog = ({ image, onclose }: ImageDialogProps) => {
       <SheetContent className="max-w-full sm:max-w-xl w-full">
         <SheetHeader>
           <SheetTitle className="text-2xl w-full">Image Details</SheetTitle>
-          <ScrollArea className="h-[100vh] flex flex-col">
+          <ScrollArea className="overflow-y-auto flex flex-col pb-32 max-h-[100vh]">
             <div className="relative w-fit h-fit">
               <Image
                 src={image.url ?? ""}

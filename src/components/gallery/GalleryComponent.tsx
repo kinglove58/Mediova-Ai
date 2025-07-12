@@ -14,7 +14,7 @@ interface GalleryProps {
 
 const GalleryComponent = ({ images }: GalleryProps) => {
   const [selectedImage, setSelectedImage] = useState<ImageProps | null>(null);
-
+  console.log("this is the selected image:", selectedImage);
   if (images.length === 0) {
     return (
       <div className="flex justify-center h-[50vh] items-center text-muted-foreground">
@@ -55,7 +55,7 @@ const GalleryComponent = ({ images }: GalleryProps) => {
       {selectedImage && (
         <ImageDialog
           image={selectedImage}
-          onclose={() => setSelectedImage(null)}
+          onclose={() => setSelectedImage(null)} className="mb-16"
         />
       )}
     </section>

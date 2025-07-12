@@ -135,7 +135,7 @@ export async function storeImages(data: storeImageInput[]) {
   };
 }
 
-export async function getImages(limit?: number) {
+/* export async function getImages(limit?: number) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -153,7 +153,7 @@ export async function getImages(limit?: number) {
     .from("generated_images")
     .select("*")
     .eq("user_id", user.id)
-    .order("created at", { ascending: false });
+    .order("created_at", { ascending: false });
 
   if (limit) {
     query = query.limit(limit);
@@ -176,9 +176,10 @@ export async function getImages(limit?: number) {
         const { data: signedUrlData } = await supabase.storage
           .from("generated-images")
           .createSignedUrl(`${user.id}/${image.image_name}`, 3600);
+        const signedUrl = signedUrlData?.signedUrl ?? "";
         return {
           ...image,
-          url: signedUrlData?.signedUrl,
+          url: signedUrl,
         };
       }
     )
@@ -188,6 +189,59 @@ export async function getImages(limit?: number) {
     error: null,
     success: true,
     data: imageWithUrl || null,
+  };
+} */
+
+export async function getImages(limit?: number) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      error: "unauthorized",
+      success: false,
+      data: null,
+    };
+  }
+
+  let query = supabase
+    .from("generated_images")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false });
+
+  if (limit) {
+    query = query.limit(limit);
+  }
+
+  const { data: images, error } = await query;
+  if (error) {
+    return {
+      error: error.message || "failed to fetch image!",
+      success: false,
+      data: null,
+    };
+  }
+
+  const imageWithUrl = await Promise.all(
+    images.map(async (image) => {
+      const { data: signedUrlData } = await supabase.storage
+        .from("generated-images")
+        .createSignedUrl(`${user.id}/${image.image_name}`, 3600);
+
+      return {
+        ...image,
+        url: signedUrlData?.signedUrl ?? "",
+      };
+    })
+  );
+
+  return {
+    error: null,
+    success: true,
+    data: imageWithUrl,
   };
 }
 

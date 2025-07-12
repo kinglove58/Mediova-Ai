@@ -2,7 +2,7 @@ import { getImages } from "@/app/actions/image-actions";
 import GalleryComponent from "@/components/gallery/GalleryComponent";
 import React from "react";
 
-const GalleryPage = async() => {
+const GalleryPage = async () => {
   const { data: images } = await getImages();
   return (
     <section className="container mx-auto">
