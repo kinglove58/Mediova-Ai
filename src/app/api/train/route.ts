@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     if (!user) {
       return NextResponse.json(
         {
-          error: "unauthorize",
+          error: "unauthorized",
         },
         { status: 401 }
       );
@@ -40,16 +40,17 @@ export async function POST(request: NextRequest) {
     }
     const fileName = input.fileKey.replace("training_data/", "");
     const { data: fileUrl } = await supabaseAdmin.storage
-      .from("training_data")
+      .from("training-data")
       .createSignedUrl(fileName, 3600);
     if (!fileUrl?.signedUrl) {
-      throw new Error("failed to get the url");
+      throw new Error(`Failed to generate signed URL for file: ${fileName}`);
     }
 
     const hardware = await replicate.hardware.list();
 
     await replicate.models.create("techking", modelId, {
-    visibility: "private"})
+      visibility: "private",
+    });
 
     return NextResponse.json(
       {
