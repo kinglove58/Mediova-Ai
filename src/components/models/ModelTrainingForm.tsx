@@ -16,11 +16,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import React, { useId } from "react";
+import React, { useId, useState } from "react";
 import { getPresignedStorageUrl } from "@/app/actions/model-action";
 
 const ACCEPTED_ZIP_FILES = ["application/x-zip-compressed", "application/zip"];
 const MAX_FILE_SIZE = 45 * 1024 * 1024;
+
 
 const formSchema = z.object({
   modelName: z.string({ required_error: "model name is require" }),
@@ -38,6 +39,7 @@ const formSchema = z.object({
 });
 
 const ModelTrainingForm = () => {
+  const [click, setClick] = useState(false);
   const toastId = useId();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,6 +51,7 @@ const ModelTrainingForm = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setClick(true);
     toast.loading("uploading...", { id: toastId });
 
     try {
@@ -75,6 +78,7 @@ const ModelTrainingForm = () => {
       }
       const res = await urlResponse.json();
       toast.success("successfull uploaded", { id: toastId });
+      setClick(false);
 
       const formData = new FormData();
       formData.append("modelName", values.modelName);
@@ -198,8 +202,20 @@ const ModelTrainingForm = () => {
             )}
           />
 
-          <Button type="submit" className="w-fit">
-            Submit
+          <Button
+            type="submit"
+            className="w-fit flex font-semibold gap-2"
+            disabled={click}
+          >
+            {click ? (
+              <>
+                <span className="animate-spin border-t-transparent border-2 border-white rounded-full w-4 h-4">
+                  Submiting...
+                </span>
+              </>
+            ) : (
+              "Submit"
+            )}
           </Button>
         </fieldset>
       </form>
