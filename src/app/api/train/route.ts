@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    const fileName = input.fileKey.replace("training_data/", "");
+    const fileName = input.fileKey.replace("training-data/", "");
     const { data: fileUrl } = await supabaseAdmin.storage
       .from("training-data")
       .createSignedUrl(fileName, 3600);

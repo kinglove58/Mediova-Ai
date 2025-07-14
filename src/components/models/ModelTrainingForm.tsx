@@ -97,7 +97,7 @@ const ModelTrainingForm = () => {
       }
     } catch (error) {
       const errorMessage =
-        error instanceof Error ? error.message : "failed to training";
+        error instanceof Error ? error.message : "failed to start training";
       toast.error(errorMessage, { id: toastId, duration: 5000 });
     }
   }
