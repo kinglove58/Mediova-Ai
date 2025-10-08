@@ -4,7 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 import Replicate from "replicate";
 
 export async function POST(request: NextRequest) {
-  const replicate = new Replicate({ auth: process.env.REPLICATE });
+  const WEBHOOK_URL =
+    process.env.WEBHOOK_URL ?? "https://90af8d678b0a.ngrok-free.app";
+  const replicate = new Replicate({ auth: process.env.REPLICATE_API_TOKEN });
   try {
     if (!process.env.REPLICATE_API_TOKEN) {
       throw new Error("the replicate api is not valid");
@@ -46,11 +48,34 @@ export async function POST(request: NextRequest) {
       throw new Error(`Failed to generate signed URL for file: ${fileName}`);
     }
 
-    const hardware = await replicate.hardware.list();
+    /*   const hardware = await replicate.hardware.list(); */
+    const modelId = `${user.id}_${Date.now}_${input.modelName
+      .toLowerCase()
+      .replaceAll(" ", "_")}`;
 
-    await replicate.models.create("techking", modelId, {
+    await replicate.models.create("kinglove58", modelId, {
       visibility: "private",
+      hardware: "gpu-a100-large",
     });
+
+    //start training
+    const training = await replicate.trainings.create(
+      "ostris",
+      "flux-dev-lora-trainer",
+      "26dce37af90b9d997eeb970d92e47de3064d46c300504ae376c75bef6a9022d2",
+      {
+        // You need to create a model on Replicate that will be the destination for the trained version.
+        destination: `kinglove58/${modelId}`,
+        input: {
+          steps: 1200,
+          resolution: "1024",
+          input_images: fileUrl.signedUrl,
+          trigger_word: "ohxv",
+        },
+        webhook: `${WEBHOOK_URL}/api/webhooks/training`,
+        webhook_events_filter: ["completed"], // optional
+      }
+    );
 
     return NextResponse.json(
       {

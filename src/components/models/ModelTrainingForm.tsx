@@ -77,7 +77,7 @@ const ModelTrainingForm = () => {
         throw new Error("upload failed");
       }
       const res = await urlResponse.json();
-      toast.success("successfull uploaded", { id: toastId });
+      toast.success("successfully uploaded", { id: toastId });
       setClick(false);
 
       const formData = new FormData();
